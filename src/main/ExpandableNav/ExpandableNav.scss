@@ -1,0 +1,68 @@
+$sidebar-bg-color: #eff0f1;
+$sidebar-color:#1a1a1a;
+$highlight-color: #cf4520;
+
+$submenu-bg-color: #f9f9f9;
+
+@import '~react-pro-sidebar/dist/scss/styles.scss';
+
+.pro-inner-item:before {
+    display: none !important;
+}
+
+.pro-sidebar>.pro-sidebar-inner>.pro-sidebar-layout .pro-sidebar-header {
+    border-bottom: 1px solid #e1e3e5;
+}
+
+.pro-inner-item:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #e1e3e5;
+    content: "";
+}
+
+.pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item .pro-inner-item .pro-arrow-wrapper {
+    display: block;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pro-arrow-wrapper:before {
+    border-left: 1px solid #e1e3e5;
+    height: 100%;
+    content: "";
+    padding-right: 18px;
+
+}
+
+.pro-arrow-wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pro-inner-list-item>div>ul {
+    padding: 0px !important;
+}
+
+.pro-sidebar .pro-menu {
+    padding: 0px !important;
+
+}
+
+.pro-sidebar-header h4 {
+    padding: 0 2rem;
+    font-size: 1.375rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.pro-sidebar>.pro-sidebar-inner>.pro-sidebar-layout {
+    padding: 1.5rem 0 2rem;
+}

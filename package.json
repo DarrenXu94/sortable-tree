@@ -1,0 +1,28 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mammoth.js",
+  "scripts": {
+    "build": "$(npm bin)/parcel build ./src/index.html",
+    "start": "parcel ./src/index.html --open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.32.13",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@types/node": "^14.11.8",
+    "@types/react": "^16.9.51",
+    "@types/react-dom": "^16.9.8",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-pro-sidebar": "^0.6.0",
+    "react-sortable-tree": "^2.8.0",
+    "react-sortable-tree-theme-minimal": "0.0.14"
+  }
+}

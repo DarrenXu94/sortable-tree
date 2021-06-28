@@ -1,0 +1,93 @@
+// .rst__lineBlock,
+// .rst__absoluteLineBlock {
+//     display: none !important;
+// }
+
+// .rst__collapseButton,
+// .rst__expandButton {
+//     right: -22px !important;
+//     left: unset !important;
+// }
+
+// .rst__lineChildren {
+//     display: none !important;
+// }
+
+.rstcustom__nodeContent {
+    width: 100% !important;
+    padding-left: 0px !important;
+}
+
+.rstcustom__row {
+    padding-left: 0px !important;
+    padding: 5px;
+
+}
+
+.rstcustom__nodeContent[style*="padding-left: 0px;"] {
+    // background-color: #eff0f1 !important;
+
+    // &:hover {
+    //     background-color: #f4f5f6 !important;
+    // }
+}
+
+
+.rstcustom__rowWrapper {
+    padding: 0px !important;
+
+}
+
+.rstcustom__rowContents:hover {
+    box-shadow: none !important;
+    color: #cf4520;
+}
+
+.rstcustom__rowContents {
+    box-shadow: none !important;
+    // background-color: unset !important;
+    border: 0.5px solid #C0C6C7;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+}
+
+.rstcustom__rowContents:after {
+    // position: absolute;
+    // bottom: 0;
+    // left: 0;
+    // width: 100%;
+    // height: 1px;
+    // background-color: #e1e3e5;
+    // content: "";
+}
+
+.rstcustom__rowTitle {
+    font-weight: normal !important;
+}
+
+.rstcustom__node {
+    // background-color: #f9f9f9 !important;
+
+}
+
+.rstcustom__node:hover {
+    // background-color: #eff0f1 !important;
+    // background-color: #f4f5f6 !important;
+
+
+}
+
+.rstcustom__collapseButton:before {
+    content: "-" !important;
+}
+
+.rstcustom__expandButton,
+.rstcustom__collapseButton {
+    width: unset;
+    height: unset;
+}
+
+.rstcustom__expandButton:before {
+    content: "+" !important;
+}
