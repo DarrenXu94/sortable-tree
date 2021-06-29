@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SortableTree, { changeNodeAtPath } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
 // import FileExplorerTheme from "react-sortable-tree-theme-minimal";
@@ -68,7 +68,7 @@ const ParentRow = ({ rowInfo, treeData, settreeData }) => {
   );
 };
 
-const ChildNode = ({ rowInfo, handleInputChange, selectedItems }) => {
+const ChildNode = ({ rowInfo, handleInputChange, selectedItems, matches }) => {
   if (!rowInfo || !rowInfo.node) return <></>;
 
   return (
@@ -76,6 +76,7 @@ const ChildNode = ({ rowInfo, handleInputChange, selectedItems }) => {
       style={{
         fontWeight: "normal",
       }}
+      className={matches.includes(rowInfo.node.title) ? "rowMatch" : ""}
     >
       <input
         name={rowInfo.node.title}
@@ -93,6 +94,7 @@ export default function FunctionalApp() {
   const [selectedItems, setselectedItems] = useState<string[]>([]);
 
   const [searchTerm, setsearchTerm] = useState("");
+  const [matches, setmatches] = useState<string[]>([]);
 
   const [treeData, settreeData] = useState<any>([
     {
@@ -165,6 +167,15 @@ export default function FunctionalApp() {
     searchQuery &&
     node.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
 
+  // useEffect(() => {
+  //   const highlights = document.querySelectorAll(".rowMatch");
+  //   for (let match of highlights) {
+  //     match.parentElement?.parentElement?.parentElement?.classList.add(
+  //       "highlightLightblue"
+  //     );
+  //   }
+  // }, [matches]);
+
   return (
     <div>
       <div className="container">
@@ -181,13 +192,21 @@ export default function FunctionalApp() {
             Selected items:
             {selectedItems.map((item) => item)}
           </div>
+          <div>
+            Matches:
+            {matches.map((item) => item)}
+          </div>
           <form onSubmit={(e) => e.preventDefault()}>
             <p>Search</p>
-            <input type="text" onChange={searchHandler} />
+            <input type="text" value={searchTerm} onChange={searchHandler} />
             <input type="submit" />
           </form>
           <SortableTree
-            onlyExpandSearchedNodes
+            // onlyExpandSearchedNodes
+            searchFinishCallback={(matches) => {
+              setmatches(matches.map((e) => e.node.title));
+              console.log("Query and apply after");
+            }}
             searchMethod={customSearchMethod}
             searchQuery={searchTerm}
             theme={FileExplorerTheme}
@@ -196,7 +215,7 @@ export default function FunctionalApp() {
             onChange={(t) => settreeData(t)}
             canNodeHaveChildren={(node) => node.type === "artifact"}
             generateNodeProps={(rowInfo) => {
-              console.log({ rowInfo });
+              // console.log({ rowInfo });
               return {
                 title:
                   rowInfo.node.children && rowInfo.node.children.length ? (
@@ -208,6 +227,7 @@ export default function FunctionalApp() {
                   ) : (
                     <ChildNode
                       selectedItems={selectedItems}
+                      matches={matches}
                       handleInputChange={handleInputChange}
                       rowInfo={rowInfo}
                     />
