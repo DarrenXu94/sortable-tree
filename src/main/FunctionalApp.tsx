@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SortableTree from "react-sortable-tree";
+import SortableTree, { changeNodeAtPath } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
 // import FileExplorerTheme from "react-sortable-tree-theme-minimal";
 import FileExplorerTheme from "./main";
@@ -9,6 +9,79 @@ import "../theme.min.css";
 import "./SortableTree.scss";
 import ExpandableNav from "./ExpandableNav/ExpandableNav";
 
+const ParentRow = ({ rowInfo, treeData, settreeData }) => {
+  const getNodeKey = ({ treeIndex }) => treeIndex;
+
+  const [isEditing, setisEditing] = useState(false);
+
+  const onChangeExpand = (isCurrentlyExpanded) => {
+    const localTree = changeNodeAtPath({
+      treeData: treeData,
+      path: rowInfo.path,
+      getNodeKey,
+      newNode: { ...rowInfo.node, expanded: !isCurrentlyExpanded },
+    });
+    settreeData(localTree);
+  };
+
+  if (!rowInfo || !rowInfo.node) return <></>;
+  return (
+    <div
+      style={{
+        fontWeight: "bold",
+        // background: "gray",
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
+      <div>
+        {isEditing ? (
+          <input
+            style={{ fontSize: "1.1rem" }}
+            value={rowInfo.node.title}
+            onChange={(event) => {
+              const name = event.target.value;
+
+              const localTree = changeNodeAtPath({
+                treeData: treeData,
+                path: rowInfo.path,
+                getNodeKey,
+                newNode: { ...rowInfo.node, title: name },
+              });
+
+              settreeData(localTree);
+            }}
+          />
+        ) : (
+          rowInfo.node.title
+        )}
+
+        <button onClick={() => setisEditing(!isEditing)}>Edit</button>
+      </div>
+
+      <div>
+        <button onClick={() => onChangeExpand(rowInfo.node.expanded)}>
+          Expanded: {rowInfo.node.expanded ? "true" : "false"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ChildNode = ({ rowInfo }) => {
+  if (!rowInfo || !rowInfo.node) return <></>;
+
+  return (
+    <span
+      style={{
+        fontWeight: "normal",
+      }}
+    >
+      {rowInfo.node.title}
+    </span>
+  );
+};
+
 export default function FunctionalApp() {
   const [newNodeName, setnewNodeName] = useState("");
 
@@ -16,6 +89,7 @@ export default function FunctionalApp() {
     {
       title: "Food",
       type: "artifact",
+      expanded: true,
       children: [
         { title: "Egg", type: "asset" },
         { title: "Burger", type: "asset" },
@@ -73,14 +147,14 @@ export default function FunctionalApp() {
             generateNodeProps={(rowInfo) => {
               console.log({ rowInfo });
               return {
-                title: (
-                  <span
-                    style={{
-                      fontWeight: rowInfo.parentNode ? "normal" : "bold",
-                    }}
-                  >
-                    {rowInfo.node.title}
-                  </span>
+                title: !rowInfo.parentNode ? (
+                  <ParentRow
+                    settreeData={settreeData}
+                    treeData={treeData}
+                    rowInfo={rowInfo}
+                  />
+                ) : (
+                  <ChildNode rowInfo={rowInfo} />
                 ),
               };
             }}
