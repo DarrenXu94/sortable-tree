@@ -33,6 +33,7 @@ const ParentRow = ({ rowInfo, treeData, settreeData }) => {
         display: "flex",
         justifyContent: "space-between",
       }}
+      className="customRow"
     >
       <div>
         {isEditing ? (
@@ -76,7 +77,11 @@ const ChildNode = ({ rowInfo, handleInputChange, selectedItems, matches }) => {
       style={{
         fontWeight: "normal",
       }}
-      className={matches.includes(rowInfo.node.title) ? "rowMatch" : ""}
+      className={
+        matches.includes(rowInfo.node.title)
+          ? "rowMatch customRow"
+          : "customRow"
+      }
     >
       <input
         name={rowInfo.node.title}
@@ -205,7 +210,6 @@ export default function FunctionalApp() {
             // onlyExpandSearchedNodes
             searchFinishCallback={(matches) => {
               setmatches(matches.map((e) => e.node.title));
-              console.log("Query and apply after");
             }}
             searchMethod={customSearchMethod}
             searchQuery={searchTerm}

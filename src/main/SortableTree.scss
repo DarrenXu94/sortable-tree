@@ -44,6 +44,7 @@
 }
 
 .rstcustom__rowContents {
+    padding: 0px;
     box-shadow: none !important;
     // background-color: unset !important;
     border: 0.5px solid #C0C6C7;
@@ -78,19 +79,20 @@
 
 }
 
-.rstcustom__collapseButton:before {
-    content: "-" !important;
-}
+// .rstcustom__collapseButton:before {
+//     content: "-" !important;
+// }
 
 .rstcustom__expandButton,
 .rstcustom__collapseButton {
-    width: unset;
-    height: unset;
+    // width: unset;
+    // height: unset;
+    display: none;
 }
 
-.rstcustom__expandButton:before {
-    content: "+" !important;
-}
+// .rstcustom__expandButton:before {
+//     content: "+" !important;
+// }
 
 .rstcustom__rowSearchMatch {
     outline: none;
@@ -100,4 +102,20 @@
 .rowMatch {
     background-color: lightblue;
 
+}
+
+.customRow {
+    box-shadow: none !important;
+    border: 0.5px solid #C0C6C7;
+    box-sizing: border-box;
+    border-radius: 8px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.rstcustom__rowLabel {
+    height: 100%;
+    padding-right: 0px;
 }
