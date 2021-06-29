@@ -68,22 +68,29 @@ const ParentRow = ({ rowInfo, treeData, settreeData }) => {
   );
 };
 
-const ChildNode = ({ rowInfo }) => {
+const ChildNode = ({ rowInfo, handleInputChange, selectedItems }) => {
   if (!rowInfo || !rowInfo.node) return <></>;
 
   return (
-    <span
+    <div
       style={{
         fontWeight: "normal",
       }}
     >
-      {rowInfo.node.title}
-    </span>
+      <input
+        name={rowInfo.node.title}
+        type="checkbox"
+        checked={selectedItems.includes(rowInfo.node.title)}
+        onChange={handleInputChange}
+      />
+      {rowInfo.node.title} {rowInfo.node.brand}
+    </div>
   );
 };
 
 export default function FunctionalApp() {
   const [newNodeName, setnewNodeName] = useState("");
+  const [selectedItems, setselectedItems] = useState<string[]>([]);
 
   const [treeData, settreeData] = useState<any>([
     {
@@ -104,14 +111,36 @@ export default function FunctionalApp() {
           title: "Milk",
           type: "asset",
           children: [
-            { title: "Soy", type: "asset" },
-            { title: "Cow", type: "asset" },
+            { title: "Soy", type: "asset", brand: "Coles" },
+            { title: "Cow", type: "asset", brand: "Canberra milk" },
           ],
         },
         { title: "Water", type: "asset" },
       ],
     },
   ]);
+
+  const handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    console.log({ name, value });
+    if (value) {
+      // Add to list
+      const localList = [...selectedItems];
+      localList.push(name);
+      setselectedItems(localList);
+    } else {
+      // Remove from list
+      const localList = [...selectedItems];
+      const index = localList.indexOf(name);
+      if (index > -1) {
+        localList.splice(index, 1);
+      }
+      setselectedItems(localList);
+    }
+  };
 
   const myChangeHandler = (event) => {
     setnewNodeName(event.target.value);
@@ -138,6 +167,10 @@ export default function FunctionalApp() {
             <input type="text" onChange={myChangeHandler} />
             <input type="submit" />
           </form>
+          <div>
+            Selected items:
+            {selectedItems.map((item) => item)}
+          </div>
           <SortableTree
             theme={FileExplorerTheme}
             treeData={treeData}
@@ -147,15 +180,20 @@ export default function FunctionalApp() {
             generateNodeProps={(rowInfo) => {
               console.log({ rowInfo });
               return {
-                title: !rowInfo.parentNode ? (
-                  <ParentRow
-                    settreeData={settreeData}
-                    treeData={treeData}
-                    rowInfo={rowInfo}
-                  />
-                ) : (
-                  <ChildNode rowInfo={rowInfo} />
-                ),
+                title:
+                  rowInfo.node.children && rowInfo.node.children.length ? (
+                    <ParentRow
+                      settreeData={settreeData}
+                      treeData={treeData}
+                      rowInfo={rowInfo}
+                    />
+                  ) : (
+                    <ChildNode
+                      selectedItems={selectedItems}
+                      handleInputChange={handleInputChange}
+                      rowInfo={rowInfo}
+                    />
+                  ),
               };
             }}
             canDrop={(props) => {
