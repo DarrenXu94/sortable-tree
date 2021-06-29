@@ -91,3 +91,8 @@
 .rstcustom__expandButton:before {
     content: "+" !important;
 }
+
+.rstcustom__rowSearchMatch {
+    outline: none;
+    background-color: lightblue;
+}

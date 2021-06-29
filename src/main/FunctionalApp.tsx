@@ -92,6 +92,8 @@ export default function FunctionalApp() {
   const [newNodeName, setnewNodeName] = useState("");
   const [selectedItems, setselectedItems] = useState<string[]>([]);
 
+  const [searchTerm, setsearchTerm] = useState("");
+
   const [treeData, settreeData] = useState<any>([
     {
       title: "Food",
@@ -155,6 +157,14 @@ export default function FunctionalApp() {
     settreeData(localTree);
   };
 
+  const searchHandler = (event) => {
+    setsearchTerm(event.target.value);
+  };
+
+  const customSearchMethod = ({ node, searchQuery }) =>
+    searchQuery &&
+    node.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1;
+
   return (
     <div>
       <div className="container">
@@ -171,7 +181,15 @@ export default function FunctionalApp() {
             Selected items:
             {selectedItems.map((item) => item)}
           </div>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <p>Search</p>
+            <input type="text" onChange={searchHandler} />
+            <input type="submit" />
+          </form>
           <SortableTree
+            onlyExpandSearchedNodes
+            searchMethod={customSearchMethod}
+            searchQuery={searchTerm}
             theme={FileExplorerTheme}
             treeData={treeData}
             // canDrag={false}
